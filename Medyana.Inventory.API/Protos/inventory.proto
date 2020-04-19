@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+option csharp_namespace = "Medyana.Inventory.API.Services";
+
+
+
+service ClinicService{
+	rpc GetClinic(GetClinicReqeustMessage) returns (GetClinicResponseMessage);
+	rpc DeleteClinic(DeleteClinicReqeustMessage) returns (DeleteClinicResponseMessage);
+	rpc InsertClinic(InsertClinicReqeustMessage) returns (InsertClinicResponseMessage);
+	rpc UpdateClinic(UpdateClinicReqeustMessage) returns (UpdateClinicResponseMessage);
+	rpc GetClinics(CommonRequestMessage) returns (CommonResponseMessage);
+}
+service EquipmentService{
+	rpc GetEquipment(CommonRequestMessage) returns (CommonResponseMessage);
+	rpc DeleteEquipment(CommonRequestMessage) returns (CommonResponseMessage);
+	rpc InsertEquipment(CommonRequestMessage) returns (CommonResponseMessage);
+	rpc UpdateEquipment(CommonRequestMessage) returns (CommonResponseMessage);
+	rpc GetEquipments(CommonRequestMessage) returns (CommonResponseMessage);
+}
+
+message CommonRequestMessage{
+	string Content =1;
+}
+message CommonResponseMessage{
+	string Content = 1;
+	string Message = 2;
+	bool Status = 3;
+}
+message GetClinicReqeustMessage{
+	int32 clinicId= 1;
+}
+message GetClinicResponseMessage{
+	ClinicDetailMessage clinic= 1;
+}
+message ClinicDetailMessage{
+ int32 Id = 1;
+ string Name = 2;
+}
+
+message DeleteClinicReqeustMessage{
+	int32 clinicId= 1;
+}
+message DeleteClinicResponseMessage{
+	bool result= 1;
+}
+
+message InsertClinicReqeustMessage{
+	string name= 1;
+}
+message InsertClinicResponseMessage{
+	ClinicItemMessage clinicCreated= 1;
+}
+
+message UpdateClinicReqeustMessage{
+	int32 clinicId= 1;
+	string name= 2;
+}
+message UpdateClinicResponseMessage{
+	bool result= 1;
+}
+
+
+message GetClinicsResponseMessage{
+	int32 page= 1;
+	int32 pageSize= 2;
+	repeated ClinicItemMessage items= 3;
+	int32 totalItemCount= 4;
+}
+
+message ClinicItemMessage{
+	int32 id =1;
+	string name = 2;
+}
+
+
+
+
