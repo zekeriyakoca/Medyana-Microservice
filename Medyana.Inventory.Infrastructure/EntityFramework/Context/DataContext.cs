@@ -15,9 +15,15 @@ namespace Medyana.Inventory.Infrastructure.EntityFramework.Context
 
     public DbSet<Clinic> Clinics { get; set; }
     public DbSet<Equipment> Equipments { get; set; }
+    public DbSet<ClinicSummary> ClinicSummaries { get; set; } // View
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+      modelBuilder.Entity<ClinicSummary>(eb =>
+        {
+          eb.HasNoKey();
+          eb.ToView("ClinicSummary");
+        });
       base.OnModelCreating(modelBuilder);
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -29,4 +35,5 @@ namespace Medyana.Inventory.Infrastructure.EntityFramework.Context
     }
 
   }
+
 }

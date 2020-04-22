@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Medyana.Inventory.Infrastructure.EntityFramework.Context
 {
@@ -24,6 +25,7 @@ namespace Medyana.Inventory.Infrastructure.EntityFramework.Context
         context.Database.EnsureCreated();
         if (!context.Clinics.Any())
         {
+          AddViews(context);
           AddClinics(context);
           AddEquipments(context);
         }
@@ -33,6 +35,16 @@ namespace Medyana.Inventory.Infrastructure.EntityFramework.Context
         return false;
       }
       return true;
+    }
+
+    private void AddViews(DataContext context)
+    {
+      context.Database.ExecuteSqlRaw(
+                        @"CREATE VIEW ClinicSummary AS 
+                            SELECT c.Id,c.Name, 
+                                   (select Count(Id) FROM Equipments AS E WHERE E.ClinicId = C.Id) AS EquipmentCount
+                            FROM Clinics AS C ");
+
     }
 
     private void AddClinics(DataContext context)
