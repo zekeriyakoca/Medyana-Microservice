@@ -39,6 +39,7 @@ namespace Medyana.Web.Bff
     [HttpGet("{clinicId}")]
     public async Task<IActionResult> GetClinic(int clinicId)
     {
+
       return await ActionHandle(async () =>
       {
         var clinic = await clinicService.GetClinic(clinicId);

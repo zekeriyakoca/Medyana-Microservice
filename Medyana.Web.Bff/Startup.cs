@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Utils.Middlewares;
 
 namespace Medyana.Web.Bff
 {
@@ -51,6 +52,8 @@ namespace Medyana.Web.Bff
       app.UseCors("myLocal");
 
       app.UseHttpsRedirection();
+
+      //app.UseMiddleware<GlobalExceptionMiddleware>(); // We are already catching errors on Controller level. No need for extra exception catching control for now. 
 
       app.UseRouting();
 
