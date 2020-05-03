@@ -1,14 +1,12 @@
 ﻿using Dtos.Common;
-using Medyana.Domain.Entities;
-using Medyana.Domain.Interface;
 using Medyana.Dtos.Clinic;
-using Medyana.Service.AppServices;
-using Medyana.Service.Interfaces;
+using Medyana.Inventory.API.Services;
+using Medyana.Inventory.Domain.Entities;
+using Medyana.Inventory.Domain.Interface;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 

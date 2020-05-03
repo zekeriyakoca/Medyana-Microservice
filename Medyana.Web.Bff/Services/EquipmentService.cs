@@ -5,6 +5,7 @@ using Grpc.Net.Client;
 using Medyana.Dtos.Clinic;
 using Medyana.Dtos.Equipment;
 using Medyana.Inventory.API.Services;
+using Medyana.Web.Bff.Services;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
@@ -17,29 +18,14 @@ using static Medyana.Inventory.API.Services.EquipmentService;
 
 namespace Medyana.Web.Bff.Service
 {
-  public class EquipmentService : IEquipmentService
+  public class EquipmentService : BaseGrpcService<EquipmentServiceClient>, IEquipmentService
   {
-    private EquipmentServiceClient _client { get; set; }
-    public EquipmentServiceClient client
-    {
-      get
-      {
-        if (_client == null)
-        {
-          var channel = GrpcChannel.ForAddress(appSettings.InventoryApiUrl);
-          _client = new EquipmentServiceClient(channel);
-        }
-        return _client;
-      }
-    }
-
     private readonly AppSettings appSettings;
 
-    public EquipmentService(IOptionsSnapshot<AppSettings> settings)
+    public EquipmentService(IOptionsSnapshot<AppSettings> settings) : base(settings)
     {
       this.appSettings = settings.Value;
     }
-
 
     public async Task<EquipmentDetailDto> GetEquipment(int equipmentId)
     {

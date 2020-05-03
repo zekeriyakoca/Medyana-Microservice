@@ -13,26 +13,14 @@ using static Medyana.Inventory.API.Services.ClinicService;
 using Medyana.Web.Bff;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Medyana.Web.Bff.Services;
 
 namespace Medyana.Web.Bff.Service
 {
-  public class ClinicService : IClinicService
+  public class ClinicService : BaseGrpcService<ClinicServiceClient>, IClinicService
   {
-    private ClinicServiceClient _client { get; set; }
-    public ClinicServiceClient client
-    {
-      get
-      {
-        if (_client == null)
-        {
-          var channel = GrpcChannel.ForAddress(appSettings.InventoryApiUrl);
-          _client = new ClinicServiceClient(channel);
-        }
-        return _client;
-      }
-    }
     private readonly AppSettings appSettings;
-    public ClinicService(IOptionsSnapshot<AppSettings> settings)
+    public ClinicService(IOptionsSnapshot<AppSettings> settings) : base(settings)
     {
       this.appSettings = settings.Value;
     }

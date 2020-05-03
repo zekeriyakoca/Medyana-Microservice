@@ -1,12 +1,11 @@
 ﻿using Castle.Core.Configuration;
-using Dtos.Common;
 using Dtos.Equipment;
-using Medyana.Domain.Entities;
 using Medyana.Dtos.Equipment;
-using Medyana.Infrastructure.Repositories;
-using Medyana.Service.AppServices;
 using Medyana.IntegrationTest.Common;
 using Medyana.IntegrationTest.DataSources;
+using Medyana.Inventory.API.Services;
+using Medyana.Inventory.Domain.Entities;
+using Medyana.Inventory.Infrastructure.Repositories;
 using Moq;
 using System;
 using System.Linq;

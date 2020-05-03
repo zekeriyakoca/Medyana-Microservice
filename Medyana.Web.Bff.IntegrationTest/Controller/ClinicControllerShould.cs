@@ -1,30 +1,43 @@
 ﻿using Dtos.Common;
 using Medyana.Dtos.Clinic;
-using Medyana.IntegrationTest.Common;
-using Medyana.IntegrationTest.DataSources;
-using Medyana.Inventory.API.Services;
-using Medyana.Inventory.Infrastructure.Repositories;
+using Medyana.Web.Bff.IntegrationTest.Common;
+using Medyana.Web.Bff.IntegrationTest.DataSources;
+using Medyana.Web.Bff.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Medyana.IntegrationTest.Controllers
+namespace Medyana.Web.Bff.IntegrationTest.Controller
 {
-  [Collection(nameof(DatabaseFixtureCollection))]
-  public class ClinicControllerShould : DataOperationBaseShould
+  public class ClinicControllerShould : BaseControllerShould
   {
-    public ClinicController clinicController { get; set; }
+    private readonly ClinicController sut;
 
-    public ClinicControllerShould(DatabaseFixture dbFixture) : base(dbFixture)
+    public ClinicControllerShould()
     {
+      var settings = new AppSettings()
+      {
+        InventoryApiUrl = "https://localhost:5001"
+      };
+      IOptions<AppSettings> appSettingsOptions = Options.Create(settings);
+      var options = new Mock<IOptionsSnapshot<AppSettings>>();
+      options.Setup(o => o.Value).Returns(settings);
       var logger = new Mock<ILogger<ClinicController>>();
-      var clinicReposiyory = new ClinicRepository(Context);
-      var clinicAppService = new ClinicAppService(clinicReposiyory);
+      var clinicService = new ClinicService(options.Object);
+      sut = new ClinicController(clinicService, logger.Object);
+    }
 
-      clinicController = new ClinicController(clinicAppService, logger.Object);
+    [Fact]
+    public void GenericTestClassArrangements_IsSuccess()
+    {
+      Assert.NotNull(sut);
     }
 
     [Fact]
@@ -32,9 +45,9 @@ namespace Medyana.IntegrationTest.Controllers
     {
       try
       {
-        var clinicId = Context.Clinics.First()?.Id;
+        var clinicId = 1;
 
-        var clinic = await clinicController.GetClinic(clinicId.Value);
+        var clinic = await sut.GetClinic(clinicId);
         Assert.NotNull(clinic);
       }
       catch
@@ -50,7 +63,7 @@ namespace Medyana.IntegrationTest.Controllers
     {
       try
       {
-        var okResult = await clinicController.GetClinics(dto) as OkObjectResult;
+        var okResult = await sut.GetClinics(dto) as OkObjectResult;
 
         //Asserts
         var result = Assert.IsType<OkObjectResult>(okResult);
@@ -73,13 +86,13 @@ namespace Medyana.IntegrationTest.Controllers
     {
       try
       {
-        var createdResult = await clinicController.AddClinic(dto) as CreatedResult;
+        var createdResult = await sut.AddClinic(dto) as CreatedResult;
 
         //Asserts
         var result = Assert.IsType<CreatedResult>(createdResult);
         var clinic = result.Value;
 
-        var model = Assert.IsAssignableFrom<ClinicDetailDto>(
+        var model = Assert.IsAssignableFrom<ClinicItemDto>(
             clinic);
 
         if (expectation)
@@ -95,6 +108,5 @@ namespace Medyana.IntegrationTest.Controllers
     }
 
 
-    //TODO : implement ...
   }
 }

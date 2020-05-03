@@ -7,7 +7,7 @@ using Utils.Infrastructure;
 
 namespace Medyana.Dtos.Equipment
 {
-  public class EquipmentInsertDto
+  public class EquipmentInsertDto : IEquatable<EquipmentInsertDto>
   {
     [Required]
     public string Name { get; set; }
@@ -22,5 +22,14 @@ namespace Medyana.Dtos.Equipment
     [Required]
     [MinValue(1)]
     public int ClinicId { get; set; }
+
+    public bool Equals(EquipmentInsertDto other)
+    {
+      return Name == other.Name
+             && Quantity == other.Quantity
+             && UsageRate == other.UsageRate
+             && Price == other.Price;
+    }
   }
+
 }

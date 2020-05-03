@@ -1,8 +1,11 @@
 ﻿using Medyana.Inventory.Infrastructure.EntityFramework.Context;
 using Microsoft.AspNetCore.Hosting;
+using System;
+using System.Collections.Generic;
+using System.Text;
 using Xunit;
 
-namespace Medyana.IntegrationTest.Common
+namespace Medyana.Inventory.IntegrationTest.API.Common
 {
   [CollectionDefinition(nameof(DatabaseFixtureCollection))]
   public class DataOperationBaseShould // :IClassFixture<DatabaseFixture>
@@ -16,6 +19,5 @@ namespace Medyana.IntegrationTest.Common
       this.HostingEnvironment = dbFixture.HostingEnvironment;
       this.Context = dbFixture.Context;
     }
-
   }
 }

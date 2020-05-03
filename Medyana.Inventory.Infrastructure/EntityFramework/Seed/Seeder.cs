@@ -25,7 +25,8 @@ namespace Medyana.Inventory.Infrastructure.EntityFramework.Context
         context.Database.EnsureCreated();
         if (!context.Clinics.Any())
         {
-          AddViews(context);
+          if (context.Database.ProviderName.Contains(".InMemory") == false) // InMemory database is used for test purpose. InMemory DB is not a relational database.
+            AddViews(context);
           AddClinics(context);
           AddEquipments(context);
         }

@@ -1,23 +1,15 @@
 ﻿using Castle.Core.Configuration;
 using Dtos.Common;
-using Medyana.Domain.Entities;
 using Medyana.Dtos.Clinic;
-using Medyana.Infrastructure.EntityFramework.Context;
-using Medyana.Infrastructure.Repositories;
-using Medyana.Service.AppServices;
 using Medyana.IntegrationTest.Common;
 using Medyana.IntegrationTest.DataSources;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
+using Medyana.Inventory.API.Services;
+using Medyana.Inventory.Infrastructure.Repositories;
 using Moq;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Medyana.IntegrationTest.AppServices
 {
